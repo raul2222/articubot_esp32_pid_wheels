@@ -8,58 +8,53 @@ void task_loopcontr(void* arg) {
 
   while(1) {    
     if(start_stop == true){
-      Akpi=Kp+(Ki*dt);
-      Akp = -Kp;
-      A0d = Kd/dt;
-      A1d = (-2.0)*(Kd/dt);
-      A2d = Kd/dt;
-      Kd == 0 ? tau = 0 : tau = Kd/(Kp*N); // IIR filter time constant  
-      isinf(dt / (2*tau)) ? alpha = 0 : alpha = dt / (2*tau);
+        Akpi=Kp+(Ki*dt);
+        Akp = -Kp;
+        A0d = Kd/dt;
+        A1d = (-2.0)*(Kd/dt);
+        A2d = Kd/dt;
+        Kd == 0 ? tau = 0 : tau = Kd/(Kp*N); // IIR filter time constant  
+        isinf(dt / (2*tau)) ? alpha = 0 : alpha = dt / (2*tau);
 
-      if (ACTIVA_P1C_MED_ANG == 0){
-        // rps_vel
-        v_medida = (ang_cnt * 2.0 * PI) / flancos;
-        da = v_medida - anterior;
-        anterior = v_medida;
-        v_medida = da / (BLOQUEO_TAREA_LOOPCONTR_MS / flancos); // rad/s
-        //v_medida = v_medida / (2.0 * PI); // rps
-        //v_medida = v_medida * radius_wheel; // m/s
-      } else {
-        v_medida = (ang_cnt * 360.0) / flancos;  // Calculo de angulo
-      }
+        if (ACTIVA_P1C_MED_ANG == 0){
+           // rps_vel
+            v_medida = (ang_cnt * 2.0 * PI) / flancos;
+            da = v_medida - anterior;
+            anterior = v_medida;
+            v_medida = da / (BLOQUEO_TAREA_LOOPCONTR_MS / portTICK_PERIOD_MS); // rad/s
+            //v_medida = v_medida / (2.0 * PI); // rps
+            //v_medida = v_medida * radius_wheel; // m/s
+        } else {
+            v_medida = (ang_cnt * 360.0) / flancos;  // Calculo de angulo
+        }
 
-      error_2 = error_1;
-      error_1 = error_0;
-      error_0 = setpoint - v_medida;
-      // PI
-      output = output+(Akpi*error_0)+(Akp*error_1);
-      // Filtered D
-      if(alpha !=0) {
-        d1 = d0;
-        d0 = (A0d * error_0) + (A1d * error_1) + (A2d * error_2);
-        fd1 = fd0;
-        fd0 = ((alpha) / (alpha + 1)) * (d0 + d1) - ((alpha - 1) / (alpha + 1)) * fd1;
-        output = output + fd0;  
-      }
-      if (abs(output) > volt_max and output > 0) output = volt_max ; // min voltage value for dc-motor
-      if (abs(output) < volt_min and ref_val > 0) output = volt_min ;  // min voltage value for dc-motor 
-      if (abs(output) > volt_max and output < 0) output = -volt_max ;
-      if (abs(output) < volt_min and ref_val < 0) output = -volt_min ;
-      if(setpoint == 0) {
-        //start_stop =false;
-        excita_motor(0);
-        //clean(); 
-      } else{ 
-        excita_motor(output);
-      }
-      //Serial2.println(ang_cnt);
-    } else {
-      //clean();
+        error_2 = error_1;
+        error_1 = error_0;
+        error_0 = setpoint - v_medida;
+       // PI
+        output = output+(Akpi*error_0)+(Akp*error_1);
+       // Filtered D
+       if(alpha !=0) {
+          d1 = d0;
+          d0 = (A0d * error_0) + (A1d * error_1) + (A2d * error_2);
+          fd1 = fd0;
+          fd0 = ((alpha) / (alpha + 1)) * (d0 + d1) - ((alpha - 1) / (alpha + 1)) * fd1;
+          output = output + fd0;  
+        }
+       if (abs(output) > volt_max and output > 0) output = volt_max ; // min voltage value for dc-motor
+       if (abs(output) < volt_min and ref_val > 0) output = volt_min ;  // min voltage value for dc-motor 
+       if (abs(output) > volt_max and output < 0) output = -volt_max ;
+       if (abs(output) < volt_min and ref_val < 0) output = -volt_min ;
+       if(setpoint == 0) {
+          excita_motor(0);
+       } else{ 
+          excita_motor(output);
+       } 
+       // Activacion de la tarea cada 0.01s
+      vTaskDelay(BLOQUEO_TAREA_LOOPCONTR_MS / portTICK_PERIOD_MS);
     }
-    // Activacion de la tarea cada 0.01s
-    vTaskDelay(BLOQUEO_TAREA_LOOPCONTR_MS / portTICK_PERIOD_MS);
-  }
 }
+
 
 void clean(){
   excita_motor(0);
@@ -75,8 +70,6 @@ void clean(){
   fd1 = 0;
   fd0 = 0;
   ang_cnt = 0;
-  //digitalWrite(PWM_f, LOW);  // recomendado por fabricante pero no obligado
-  //digitalWrite(PWM_r, HIGH);
 }
 
 /*

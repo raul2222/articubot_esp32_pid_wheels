@@ -10,6 +10,9 @@ void task_medidas(void* arg){
   float toutput = 0;
   int limite=10;
   while (1) {
+
+/*
+
     if (start_stop == 1) {  
 
       if (contador ==limite){
@@ -56,7 +59,7 @@ void task_medidas(void* arg){
       }
     }
 
-   vTaskDelay(BLOQUEO_TAREA_MEDIDA_MS / portTICK_PERIOD_MS);
+   vTaskDelay(BLOQUEO_TAREA_MEDIDA_MS / portTICK_PERIOD_MS);*/
   }
 }
 
@@ -78,4 +81,5 @@ void task_adc(void* arg)
     // Activacion de la tarea cada 1s
     vTaskDelay(BLOQUEO_TAREA_LOOPCONTR_MS / portTICK_PERIOD_MS);
   }
+
 }

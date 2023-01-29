@@ -63,6 +63,7 @@ void setup() {
 
   // Configuracion del encoder
   config_enc();
+  config_wire();
 
 }
 
@@ -135,18 +136,8 @@ void config_PWM(){
     //ledcAttachPin(PWM_Pin, 0);
 }  
 
-
-////////////////////////////////////////////////////////////////////////////////////
-// Funcion configuracion del puerto serie
-////////////////////////////////////////////////////////////////////////////////////
-void config_sp(){
-
-    Serial.begin(115200);
-    while (!Serial){
-      delay(10);
-    }
-
-    #ifdef LEFT ///////////////
+void config_wire(){
+   #ifdef LEFT ///////////////
 
     bool success = Wire.begin(I2C_SLAVE_ADDR_L);
     if (!success) {
@@ -166,8 +157,17 @@ void config_sp(){
     Wire.onReceive(receiveEvent_r);
     Wire.onRequest(requestEvent_r);
     #endif/////////////
+}
 
-    
+////////////////////////////////////////////////////////////////////////////////////
+// Funcion configuracion del puerto serie
+////////////////////////////////////////////////////////////////////////////////////
+void config_sp(){
+
+    Serial.begin(115200);
+    while (!Serial){
+      delay(10);
+    }
     Serial.println("  ");
     Serial.println("--------------------------------------------");
     Serial.println("******  PID RELEASE  ******");

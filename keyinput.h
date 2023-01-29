@@ -6,21 +6,21 @@ void task_config(void *pvParameter) {
 
     while(1) { 
         // Detectar caracter enviado
-      /*  if(Serial.available() > 0){
+       if(Serial.available() > 0){
             String str = Serial.readStringUntil('\n');
             ini_char = str[0];
             if(str.indexOf("V") == 0 or str.indexOf("v") == 0){
                 str.replace("V","");str.replace("v","");str.replace(",",".");
-                /*
+                
                 pwm_volt = str.toFloat();
                 Serial.print("Voltaje motor = ");
                 Serial.println(pwm_volt, 2);
                 //ref_val = pwm_volt; estabamos usando esta forma
-                */
+                
                 //puesta_a_cero();
                 
                 
-            /*    ACTIVA_P1C_MED_ANG = 0;
+                ACTIVA_P1C_MED_ANG = 0;
                 //init_eeprom();
                 #ifdef ACTIVA_DEBUG
                 Serial.print("----Modo Velocidad----");
@@ -31,26 +31,26 @@ void task_config(void *pvParameter) {
                   str.replace("R", "");str.replace("r", "");str.replace(",",".");
                   ref_val = str.toFloat();
                   start_stop = 1;
-                  /*if( ACTIVA_P1C_MED_ANG == 1 ){
+                  if( ACTIVA_P1C_MED_ANG == 1 ){
                     #ifdef ACTIVA_DEBUG
                       Serial.print("Angulo= ");
                       Serial.print(ref_val, 2);
                       Serial.println("º");
                     #endif
-                  }else{*/
+                  }else{
 
                       
-                    /*  #ifdef ACTIVA_DEBUG
+                      #ifdef ACTIVA_DEBUG
                       Serial.print("Velocidad= ");
                       Serial.print(ref_val);
                       Serial.println("rps");
-                      #endif*/
+                      #endif
                   //}
                   //Serial.print(Kp);
                   //Serial.print(ref_val);
                   //Serial.println("rps");
                   //init_params();
-              /*    setpoint = ref_val;
+                  setpoint = ref_val;
                   
               }
               if(str.indexOf("A") == 0 or str.indexOf("a") == 0){
@@ -149,7 +149,6 @@ void task_config(void *pvParameter) {
               setpoint = ref_val;
         }
 
-*/
         // Activacion de la tarea cada 0.1s
         vTaskDelay(100 / portTICK_PERIOD_MS);
       }
