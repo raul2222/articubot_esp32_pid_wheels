@@ -1,9 +1,4 @@
 
-/*
- Tarea task_loopcontr #####################################################################
-*/
-
-
 void task_loopcontr(void* arg) {
 
   while(1) {    
@@ -53,6 +48,7 @@ void task_loopcontr(void* arg) {
        // Activacion de la tarea cada 0.01s
       vTaskDelay(BLOQUEO_TAREA_LOOPCONTR_MS / portTICK_PERIOD_MS);
     }
+  }
 }
 
 
@@ -82,23 +78,23 @@ void task_enc(void* arg) {
   while(1){
     // Espera a leer los datos de la cola
     if (xQueueReceive( cola_enc , &r ,(TickType_t) portMAX_DELAY) == pdTRUE){
-      if(r != anterior){
-               
-        if(output >= 0){
-          ang_cnt++;
-        } else {
-          ang_cnt--;
-        }
+        if(r != anterior){
                 
-      }
-      anterior = r;
+            if(output >= 0){
+              ang_cnt++;
+            } else {
+              ang_cnt--;
+            }
+                  
+        }
+        anterior = r;
     } else {
       printf("Error de lectura de la cola cola_enc \n");
     }
  }
 }
 
-
+/*
 
 
 
@@ -193,4 +189,4 @@ void proceso_rpm(){
 }
 
 
-
+*/

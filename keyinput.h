@@ -153,3 +153,4 @@ void task_config(void *pvParameter) {
         vTaskDelay(100 / portTICK_PERIOD_MS);
       }
 }
+}

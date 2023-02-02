@@ -3,8 +3,8 @@
 #define VERSION_SW "0.1"
 
 // Choose the wheel
-//#define LEFT
-#define RIGHT
+#define LEFT
+//#define RIGHT
 
 #define ACTIVA_DEBUG
 #define ACTIVA_R
@@ -170,4 +170,5 @@ void excita_motor(float v_motor){
   	// DAC INSTEAD LEDC
   	//ledcWrite(0, dutyCycle);
     dacWrite(DAC2,dutyCycle); 
-}  
+  }  
+

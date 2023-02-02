@@ -28,7 +28,7 @@
 
 // TIEMPOS
 #define BLOQUEO_TAREA_LOOPCONTR_MS 10
-#define BLOQUEO_TAREA_MEDIDA_MS 80
+#define BLOQUEO_TAREA_MEDIDA_MS 250
 
 int dutyCycle =0;
 
@@ -114,6 +114,7 @@ void puesta_a_cero();
 void init_params();
 void config_ADC();
 void clean();
+void config_wire();
 
 // TABLA VELOCIDAD-VOLTAJE P1D
 #define LONG_LUT 12
